@@ -1,4 +1,20 @@
 import {useFormik} from 'formik'
+const validate = (values) => {
+    const erros = {}
+    if(!values.name){
+     errors.name = 'Requerido'
+    } else if(values.name.length < 5){
+      errors.name = 'El nombre es muy corto'
+    }
+
+    if(!values.lastname){
+      errors.lastname = 'Requerido'
+     } else if(values.lastname.length < 5){
+       errors.lastname = 'El apellido es muy corto'
+     }
+
+    return errors
+}
 
 function App() {
   const formik = useFormik({
@@ -7,6 +23,7 @@ function App() {
       lastname: '',
       email: '',
     },
+    validate,
     onSubmit: values => console.log(values)
   })
   return (
@@ -18,7 +35,8 @@ function App() {
         onChange={formik.handleChange}
         value={formik.values.name}
       />
-
+  {formik.errors.name ? <div>{formik.errors.name}</div> : null}   
+<br/>
 <label>Apellido</label>
       <input 
         name="lastname"
@@ -26,7 +44,8 @@ function App() {
         onChange={formik.handleChange}
         value={formik.values.lastname}
       />
-
+{formik.errors.lastname ? <div>{formik.errors.lastname}</div> : null} 
+<br/>
 <label>Correo</label>
       <input 
         name="email"
